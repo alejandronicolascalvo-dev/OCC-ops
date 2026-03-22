@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyOps - Crew & Fleet Control</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    <header>
+    <h1>SkyOps ✈️ <span class="subtitle">OCC Dashboard</span></h1>
+    <div id="stats-bar" class="stats-container">
+        </div>
+</header>
+
+<div class="search-area">
+    <input type="text" id="global-search" placeholder="🔍 Buscar matrícula, nombre o flota...">
+</div>
+
+    <main>
+        <div class="search-container">
+    <input type="text" id="fleet-search" placeholder="🔍 Buscar matrícula (ej: MBS)...">
+</div>
+        <section id="fleet-section">
+            <h2>Estado de la Flota (Base MAD)</h2>
+            <div class="grid" id="fleet-grid">
+                </div>
+        </section> <section id="crew-section">
+            <h2>Tripulaciones Disponibles / Imaginarias</h2>
+            <div class="grid" id="crew-grid">
+                </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
