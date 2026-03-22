@@ -11,15 +11,18 @@ function updateStats() {
     const flyingPlanes = fleet.filter(p => p.estado === 'Flying').length;
     const maintCount = fleet.filter(p => p.estado === 'Maintenance').length;
 
-    statsBar.innerHTML = `
-        <div class="stat-item">👥 TCPs en SBY: <strong>${sbyCount}</strong></div>
-        <div class="stat-item">✈️ En Vuelo: <strong>${flyingPlanes}</strong></div>
-        <div class="stat-item">🔧 En Hangar: <strong>${maintCount}</strong></div>
-    `;
+    if (statsBar) {
+        statsBar.innerHTML = `
+            <div class="stat-item">👥 TCPs en SBY: <strong>${sbyCount}</strong></div>
+            <div class="stat-item">✈️ En Vuelo: <strong>${flyingPlanes}</strong></div>
+            <div class="stat-item">🔧 En Hangar: <strong>${maintCount}</strong></div>
+        `;
+    }
 }
 
 // --- 2. RENDERIZADO DE TRIPULACIÓN ---
 function renderCrews(data = crews) {
+    if (!crewGrid) return;
     crewGrid.innerHTML = '';
     data.forEach(person => {
         const card = document.createElement('div');
@@ -36,6 +39,7 @@ function renderCrews(data = crews) {
 
 // --- 3. RENDERIZADO DE FLOTA ---
 function renderFleet(data = fleet) {
+    if (!fleetGrid) return;
     fleetGrid.innerHTML = '';
     data.forEach(plane => {
         const card = document.createElement('div');
@@ -50,16 +54,25 @@ function renderFleet(data = fleet) {
     });
 }
 
-// --- 4. BUSCADOR GLOBAL ---
-globalSearch.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
+// --- 4. LÓGICA DEL BUSCADOR ---
+if (globalSearch) {
+    globalSearch.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
 
-    const filteredCrews = crews.filter(c => c.nombre.toLowerCase().includes(term));
-    const filteredFleet = fleet.filter(p => p.matricula.toLowerCase().includes(term) || p.modelo.toLowerCase().includes(term));
+        const filteredCrews = crews.filter(person => 
+            person.nombre.toLowerCase().includes(term) || 
+            person.rango.toLowerCase().includes(term)
+        );
 
-    renderCrews(filteredCrews);
-    renderFleet(filteredFleet);
-});
+        const filteredFleet = fleet.filter(plane => 
+            plane.matricula.toLowerCase().includes(term) || 
+            plane.modelo.toLowerCase().includes(term)
+        );
+
+        renderCrews(filteredCrews);
+        renderFleet(filteredFleet);
+    });
+}
 
 // EJECUCIÓN INICIAL
 updateStats();
